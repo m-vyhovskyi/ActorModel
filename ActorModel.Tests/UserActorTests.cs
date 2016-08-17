@@ -75,5 +75,19 @@ namespace ActorModel.Tests
                 .ExpectOne(() => actor.Tell(new PlayMovieMessage("Null Terminator")));
         }
 
+        [Fact]
+        public void ShouldPublishPlayingMovie()
+        {
+            IActorRef actor = ActorOf(Props.Create(() => new UserActor(ActorOf(BlackHoleActor.Props))));
+
+            var subscriber = CreateTestProbe();
+
+            Sys.EventStream.Subscribe(subscriber, typeof(NowPlayingMessage));
+
+            actor.Tell(new PlayMovieMessage(CodenanTheBarbarian));
+
+            subscriber.ExpectMsg<NowPlayingMessage>(message => message.CurrentlyPlaying == CodenanTheBarbarian);
+        }
+
     }
 }

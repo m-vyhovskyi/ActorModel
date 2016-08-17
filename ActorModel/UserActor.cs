@@ -30,6 +30,7 @@ namespace ActorModel
                 stats.Tell(message.TitleName);
 
                 Context.ActorSelection("/user/audit").Tell(message);
+                Context.System.EventStream.Publish(new NowPlayingMessage(CurrentlyPlaying));
             });
         }
     }
