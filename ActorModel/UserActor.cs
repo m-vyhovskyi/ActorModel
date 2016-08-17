@@ -1,4 +1,6 @@
-﻿using Akka.Actor;
+﻿using System.Threading;
+
+using Akka.Actor;
 
 namespace ActorModel
 {
@@ -11,6 +13,7 @@ namespace ActorModel
             Receive<PlayMovieMessage>(message =>
             {
                 CurrentlyPlaying = message.TitleName;
+                Sender.Tell(new NowPlayingMessage(CurrentlyPlaying));
             });
         }
     }

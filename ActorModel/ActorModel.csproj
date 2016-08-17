@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InitialStatisticsMessage.cs" />
+    <Compile Include="NowPlayingMessage.cs" />
     <Compile Include="PlayMovieMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatisticsActor.cs" />
