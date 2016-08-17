@@ -66,5 +66,14 @@ namespace ActorModel.Tests
                 .ExpectOne(() => actor.Tell(new PlayMovieMessage("Boolean Lies")));
         }
 
+        [Fact]
+        public void ShouldErrorOnUnknownMovie()
+        {
+            IActorRef actor = ActorOf(Props.Create(() => new UserActor(ActorOf(BlackHoleActor.Props))));
+
+            EventFilter.Exception<NotSupportedException>()
+                .ExpectOne(() => actor.Tell(new PlayMovieMessage("Null Terminator")));
+        }
+
     }
 }

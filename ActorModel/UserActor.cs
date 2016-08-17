@@ -1,11 +1,11 @@
-﻿using System.Threading;
+﻿using System;
 
 using Akka.Actor;
 using Akka.Event;
 
 namespace ActorModel
 {
-    public class UserActor: ReceiveActor
+    public class UserActor : ReceiveActor
     {
         private readonly ILoggingAdapter log = Context.GetLogger();
 
@@ -18,6 +18,11 @@ namespace ActorModel
             this.stats = stats;
             Receive<PlayMovieMessage>(message =>
             {
+                if (message.TitleName == "Null Terminator")
+                {
+                    throw new NotSupportedException();
+                }
+
                 log.Info("Started playing {0}", message.TitleName);
                 CurrentlyPlaying = message.TitleName;
                 log.Info("Replying to sender");
