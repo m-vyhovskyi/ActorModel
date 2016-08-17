@@ -11,6 +11,8 @@ namespace ActorModel.Tests
 {
     public class StatisticsActorTests : TestKit
     {
+        private const string CodenanTheBarbarian = "Codenan the Barbarian";
+
         [Fact(DisplayName = "The number of plays initially equals 0")]
         public void ShouldHaveInitialPlayCountsValue()
         {
@@ -23,11 +25,11 @@ namespace ActorModel.Tests
         {
             StatisticsActor actor = new StatisticsActor();
 
-            var initialMovieStats = new Dictionary<string, int> { { "Codenan the Barbarian", 42 } };
+            var initialMovieStats = new Dictionary<string, int> { { CodenanTheBarbarian, 42 } };
 
             actor.HandleInitialMessage(new InitialStatisticsMessage(new ReadOnlyDictionary<string, int>(initialMovieStats)));
 
-            Assert.Equal(42, actor.PlayCounts["Codenan the Barbarian"]);
+            Assert.Equal(42, actor.PlayCounts[CodenanTheBarbarian]);
         }
 
         [Fact(DisplayName = "Should Receive Initial Statistics Message")]
@@ -35,11 +37,25 @@ namespace ActorModel.Tests
         {
             TestActorRef<StatisticsActor> actor = ActorOfAsTestActorRef<StatisticsActor>();
 
-            var initialMovieStats = new Dictionary<string, int> { { "Codenan the Barbarian", 42 } };
+            var initialMovieStats = new Dictionary<string, int> { { CodenanTheBarbarian, 42 } };
 
             actor.Tell(new InitialStatisticsMessage(new ReadOnlyDictionary<string, int>(initialMovieStats)));
 
-            Assert.Equal(42, actor.UnderlyingActor.PlayCounts["Codenan the Barbarian"]);
+            Assert.Equal(42, actor.UnderlyingActor.PlayCounts[CodenanTheBarbarian]);
+        }
+
+        [Fact(DisplayName = "Should Update Play Counts")]
+        public void ShouldUpdatePlayCounts()
+        {
+            TestActorRef<StatisticsActor> actor = ActorOfAsTestActorRef<StatisticsActor>();
+
+            var initialMovieStats = new Dictionary<string, int> { { CodenanTheBarbarian, 42 } };
+
+            actor.Tell(new InitialStatisticsMessage(new ReadOnlyDictionary<string, int>(initialMovieStats)));
+
+            actor.Tell(CodenanTheBarbarian);
+
+            Assert.Equal(43, actor.UnderlyingActor.PlayCounts[CodenanTheBarbarian]);
         }
 
     }

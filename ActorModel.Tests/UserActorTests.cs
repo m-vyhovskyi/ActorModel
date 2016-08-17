@@ -2,6 +2,7 @@
 
 using Akka.Actor;
 using Akka.TestKit;
+using Akka.TestKit.TestActors;
 using Akka.TestKit.Xunit2;
 
 using Xunit;
@@ -15,7 +16,8 @@ namespace ActorModel.Tests
         [Fact]
         public void ShouldHaveInitialState()
         {
-            TestActorRef<UserActor> actor = ActorOfAsTestActorRef<UserActor>();
+            TestActorRef<UserActor> actor = ActorOfAsTestActorRef<UserActor>(
+                Props.Create(()=>new UserActor(ActorOf(BlackHoleActor.Props))));
 
             Assert.Null(actor.UnderlyingActor.CurrentlyPlaying);
         }
@@ -23,7 +25,8 @@ namespace ActorModel.Tests
         [Fact]
         public void ShouldUpdateCurrentlyPlayingState()
         {
-            TestActorRef<UserActor> actor = ActorOfAsTestActorRef<UserActor>();
+            TestActorRef<UserActor> actor = ActorOfAsTestActorRef<UserActor>(
+                Props.Create(() => new UserActor(ActorOf(BlackHoleActor.Props))));
 
             actor.Tell(new PlayMovieMessage(CodenanTheBarbarian));
 
@@ -33,7 +36,8 @@ namespace ActorModel.Tests
         [Fact]
         public void ShouldPlayMovie()
         {
-            IActorRef actor = ActorOf<UserActor>();
+            TestActorRef<UserActor> actor = ActorOfAsTestActorRef<UserActor>(
+                Props.Create(() => new UserActor(ActorOf(BlackHoleActor.Props))));
 
             actor.Tell(new PlayMovieMessage(CodenanTheBarbarian));
 
