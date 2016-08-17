@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="DatabaseActorTests.cs" />
     <Compile Include="IntegrationTests.cs" />
+    <Compile Include="MockDatabaseActor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatisticsActorTests.cs" />
     <Compile Include="UserActorTests.cs" />

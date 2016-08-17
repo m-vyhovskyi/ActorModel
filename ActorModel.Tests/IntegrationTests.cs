@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 
 using Akka.Actor;
 using Akka.TestKit;
+using Akka.TestKit.TestActors;
 using Akka.TestKit.Xunit2;
 
 using Xunit;
@@ -16,7 +17,7 @@ namespace ActorModel.Tests
         [Fact]
         public void UserShouldUpdatePlayCounts()
         {
-            TestActorRef<StatisticsActor> stats = ActorOfAsTestActorRef<StatisticsActor>();
+            TestActorRef<StatisticsActor> stats = ActorOfAsTestActorRef(()=> new StatisticsActor(ActorOf(BlackHoleActor.Props)));
             var initialMovieStats = new Dictionary<string, int> { { CodenanTheBarbarian, 42 } };
             stats.Tell(new InitialStatisticsMessage(new ReadOnlyDictionary<string, int>(initialMovieStats)));
 
