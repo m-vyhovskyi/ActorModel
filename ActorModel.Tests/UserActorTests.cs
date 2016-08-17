@@ -57,5 +57,14 @@ namespace ActorModel.Tests
                         .Expect(2, ()=>actor.Tell(new PlayMovieMessage("Boolean Lies")));
         }
 
+        [Fact]
+        public void ShouldSendToDeadLetters()
+        {
+            IActorRef actor = ActorOf(Props.Create(() => new UserActor(ActorOf(BlackHoleActor.Props))));
+
+            EventFilter.DeadLetter<PlayMovieMessage>(m => m.TitleName == "Boolean Lies")
+                .ExpectOne(() => actor.Tell(new PlayMovieMessage("Boolean Lies")));
+        }
+
     }
 }

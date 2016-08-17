@@ -23,6 +23,8 @@ namespace ActorModel
                 log.Info("Replying to sender");
                 Sender.Tell(new NowPlayingMessage(CurrentlyPlaying));
                 stats.Tell(message.TitleName);
+
+                Context.ActorSelection("/user/audit").Tell(message);
             });
         }
     }
