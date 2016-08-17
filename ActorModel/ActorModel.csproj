@@ -52,6 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseActor.cs" />
+    <Compile Include="GetInitialStatisticsMessage.cs" />
+    <Compile Include="IDatabaseGateway.cs" />
     <Compile Include="InitialStatisticsMessage.cs" />
     <Compile Include="NowPlayingMessage.cs" />
     <Compile Include="PlayMovieMessage.cs" />
