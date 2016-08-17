@@ -46,5 +46,16 @@ namespace ActorModel.Tests
             Assert.Equal(CodenanTheBarbarian, received.CurrentlyPlaying);
         }
 
+        [Fact]
+        public void ShouldLogPlayMovie()
+        {
+            IActorRef actor = ActorOf(Props.Create(() => new UserActor(ActorOf(BlackHoleActor.Props))));
+
+            EventFilter.Info("Started playing Boolean Lies")
+                        .And
+                        .Info("Replying to sender")
+                        .Expect(2, ()=>actor.Tell(new PlayMovieMessage("Boolean Lies")));
+        }
+
     }
 }
